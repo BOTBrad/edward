@@ -74,6 +74,12 @@ func main() {
 		Value: &(flags.exclude),
 	}
 
+	envFlag := cli.StringSliceFlag{
+		Name:  "env",
+		Usage: "a list of environment variable overrides",
+		Value: &(flags.env),
+	}
+
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:        "config, c",
@@ -113,6 +119,7 @@ func main() {
 			BashComplete: autocompleteServicesAndGroups,
 			Flags: []cli.Flag{
 				excludeFlag,
+				envFlag,
 				cli.BoolFlag{
 					Name:        "skip-build, s",
 					Usage:       "Skip the build phase",
@@ -143,6 +150,7 @@ func main() {
 			BashComplete: autocompleteServicesAndGroups,
 			Flags: []cli.Flag{
 				excludeFlag,
+				envFlag,
 			},
 		},
 		{
@@ -152,6 +160,7 @@ func main() {
 			BashComplete: autocompleteServicesAndGroups,
 			Flags: []cli.Flag{
 				excludeFlag,
+				envFlag,
 				cli.BoolFlag{
 					Name:        "skip-build, s",
 					Usage:       "Skip the build phase",
@@ -717,12 +726,14 @@ var flags = struct {
 	noPrompt  bool
 	exclude   cli.StringSlice
 	tail      bool
+	env       cli.StringSlice
 }{}
 
 func getOperationConfig() services.OperationConfig {
 	return services.OperationConfig{
-		Exclusions: []string(flags.exclude),
-		NoWatch:    flags.noWatch,
+		Exclusions:  []string(flags.exclude),
+		NoWatch:     flags.noWatch,
+		EnvOverride: flags.env,
 	}
 }
 

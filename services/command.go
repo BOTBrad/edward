@@ -387,6 +387,7 @@ func (c *ServiceCommand) getLaunchCommand(cfg OperationConfig) (*exec.Cmd, error
 
 	cmd := exec.Command(command, cmdArgs...)
 	cmd.SysProcAttr = &syscall.SysProcAttr{Setpgid: true}
+	cmd.Env = cfg.EnvOverride
 	return cmd, nil
 }
 

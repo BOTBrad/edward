@@ -24,6 +24,7 @@ type ServiceStatus struct {
 type OperationConfig struct {
 	Exclusions []string // Names of services/groups to be excluded from this operation
 	NoWatch    bool
+	EnvOverride []string
 }
 
 // IsExcluded returns true if the given service/group is excluded by this OperationConfig.
